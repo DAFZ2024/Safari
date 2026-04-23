@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,300;1,9..40,400;1,9..40,700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+
+:root {
+  --canopy: #1A2E1F;
+  --moss: #4A7C59;
+  --khaki: #D4C5A9;
+  --coral: #E8613C;
+  --deep-forest: #0F1A12;
+  --bark: #2C1A0E;
+  --sand: #F0E8D6;
+  --volcanic: #2A2018;
+  --coast: #1A3A4A;
+  --grassland: #8B7355;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--deep-forest);
+  color: var(--khaki);
+  overflow-x: hidden;
+}
+
+/* ─── HORIZONTAL SCROLL CONTAINER ─── */
+.horizontal-scroll-container {
+  display: flex;
+  width: 400vw;
+  height: 100vh;
+  will-change: transform;
+}
+
+.biome-panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── HERO HEADLINE REVEAL ─── */
+@keyframes headline-materialize {
+  0% { opacity: 0; letter-spacing: 0.3em; filter: blur(8px); }
+  100% { opacity: 1; letter-spacing: -0.02em; filter: blur(0px); }
+}
+
+.headline-reveal {
+  opacity: 0;
+  animation: headline-materialize 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2s forwards;
+}
+
+/* ─── MIST PARTICLES (Rainforest Panel) ─── */
+@keyframes mist-drift {
+  0% { transform: translateX(-100px) translateY(0px); opacity: 0; }
+  20% { opacity: 0.4; }
+  80% { opacity: 0.2; }
+  100% { transform: translateX(200px) translateY(-60px); opacity: 0; }
+}
+
+.mist-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  animation: mist-drift linear infinite;
+  pointer-events: none;
+}
+
+/* ─── HEAT SHIMMER (Savanna Panel) ─── */
+@keyframes heat-shimmer {
+  0%, 100% { transform: scaleY(1) translateY(0px); filter: blur(0px); }
+  25% { transform: scaleY(1.002) translateY(-1px); filter: blur(0.3px); }
+  50% { transform: scaleY(0.999) translateY(1px); filter: blur(0.5px); }
+  75% { transform: scaleY(1.001) translateY(-0.5px); filter: blur(0.2px); }
+}
+
+.heat-shimmer-layer {
+  animation: heat-shimmer 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* ─── WATER LAPPING (Coast Panel) ─── */
+@keyframes wave-lap {
+  0% { transform: translateX(-100%) scaleY(1); opacity: 0.6; }
+  50% { transform: scaleY(1.2); opacity: 0.3; }
+  100% { transform: translateX(100%) scaleY(0.8); opacity: 0; }
+}
+
+.wave-line {
+  position: absolute;
+  height: 2px;
+  width: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), rgba(255,255,255,0.6), rgba(255,255,255,0.4), transparent);
+  border-radius: 50%;
+  animation: wave-lap 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── STAGGER DELAYS ─── */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* ─── CORAL CTA BUTTON ─── */
+.cta-coral {
+  background-color: var(--coral);
+  color: #0F1A12;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-coral:hover {
+  background-color: #F07050;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 97, 60, 0.4);
+}
+
+/* ─── MONO LABELS ─── */
+.mono-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── PANEL PROGRESS DOTS ─── */
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(212, 197, 169, 0.3);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.progress-dot.active {
+  background: var(--coral);
+  width: 24px;
+  border-radius: 3px;
+}
+
+/* ─── GLASS CARD ─── */
+.glass-card {
+  background: rgba(15, 26, 18, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 197, 169, 0.15);
+}
+
+/* ─── GUIDE CARD HOVER ─── */
+.guide-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── ROUTE MARKER ─── */
+@keyframes pulse-marker {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+.route-marker {
+  animation: pulse-marker 2s ease-in-out infinite;
+}
+
+/* ─── BIOME PANEL OVERLAYS ─── */
+.panel-rainforest { background: linear-gradient(135deg, #0A1A0D 0%, #1A2E1F 40%, #2A4A30 100%); }
+.panel-volcanic { background: linear-gradient(135deg, #1A1208 0%, #2A2018 40%, #3A3020 100%); }
+.panel-grassland { background: linear-gradient(135deg, #1A1408 0%, #3A2E18 40%, #5A4A28 100%); }
+.panel-coast { background: linear-gradient(135deg, #081820 0%, #1A3A4A 40%, #2A5A6A 100%); }
+
+/* ─── CUSTOM SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--deep-forest); }
+::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--coral); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-content {
+  animation: modal-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── FORM INPUTS ─── */
+.safari-input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(212, 197, 169, 0.2);
+  color: var(--khaki);
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.safari-input:focus {
+  outline: none;
+  border-color: var(--coral);
+  background: rgba(232, 97, 60, 0.05);
+}
+
+.safari-input::placeholder {
+  color: rgba(212, 197, 169, 0.4);
+}
+
+.safari-select option {
+  background: var(--canopy);
+  color: var(--khaki);
+}
+
+/* ─── STAT NUMBER ─── */
+@keyframes count-up-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-number {
+  animation: count-up-fade 0.6s ease forwards;
+}
+
+/* ─── HORIZONTAL SCROLL WRAPPER (vertical page scroll drives horizontal) ─── */
+.h-scroll-section {
+  position: relative;
+  height: 400vh; /* 4 panels × 100vh */
+}
+
+.h-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── PANEL TRANSITION GLOW ─── */
+@keyframes panel-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+.panel-glow {
+  animation: panel-glow 4s ease-in-out infinite;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ─── */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+/* ─── FOOTER UNDERLINE HOVER ─── */
+.footer-link {
+  position: relative;
+}
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--coral);
+  transition: width 0.3s ease;
+}
+.footer-link:hover::after { width: 100%; }
+
+/* ─── MIGRATION CALENDAR CARD ─── */
+@keyframes float-card {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+
+.float-animation {
+  animation: float-card 5s ease-in-out infinite;
+}
+
+/* ─── MOBILE FALLBACK ─── */
+@media (max-width: 768px) {
+  .h-scroll-section {
+    height: auto;
+  }
+  .h-scroll-sticky {
+    position: relative;
+    height: auto;
+  }
+  .horizontal-scroll-container {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+  .biome-panel {
+    width: 100%;
+    height: 100svh;
+  }
+}
